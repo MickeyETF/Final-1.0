@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+		
+        <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+        <title>
+        </title>
+        <link rel="stylesheet" href="https://s3.amazonaws.com/codiqa-cdn/mobile/1.2.0/jquery.mobile-1.2.0.min.css" />
+         <link rel="stylesheet" href="jquery.mobile-1.2.0.min.css" />
+        <script src="https://s3.amazonaws.com/codiqa-cdn/jquery-1.7.2.min.js">
+        </script>
+		<script src="phonegap.js"></script>
+        <script src="https://s3.amazonaws.com/codiqa-cdn/mobile/1.2.0/jquery.mobile-1.2.0.min.js">
+        </script>
+		
+		 
+    </head>
+    <body>
+        <!-- Home -->
+        <div data-role="page" id="page1">
+            <div data-theme="b" data-role="header">
+                <a data-role="button" href="#" data-icon="delete" data-iconpos="left" class="ui-btn-right" onclick="PonistiPodatke();">
+                    Odjava
+                </a>
+                <h3>
+                    Opcije korisnika
+                </h3>
+            </div>
+            <div data-role="content">
+                <ul data-role="listview" data-divider-theme="b" data-inset="true">
+                    <li data-role="list-divider" role="heading">
+                        Odaberite opciju
+                    </li>
+                    <li data-theme="">
+                        <a href="polozeni_ispiti.html" rel="external" data-ajax="false" data-transition="slide">
+                            Pregled položenih ispita
+                        </a>
+                    </li>
+                    <li data-theme="">
+                        <a href="nepolozeni_ispiti.html" rel="external" data-ajax="false" data-transition="slide">
+                            Pregled nepolozenih ispita
+                        </a>
+                    </li>
+                    <li data-theme="">
+                        <a href="prijava_ispita.html" rel="external" data-ajax="false" data-transition="slide">
+                            Prijava ispita
+                        </a>
+                    </li>
+                    <li data-theme="">
+                        <a href="status_studenta.html" rel="external" data-ajax="false" data-transition="slide">
+                           Status studenta
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+		<script>
+        function PonistiPodatke()
+        {
+        window.localStorage.clear("korisnicko_ime");
+        window.localStorage.clear("lozinka");
+		window.location.replace("index.html");
+        }
+        </script>
+		
+    </body>
+</html>

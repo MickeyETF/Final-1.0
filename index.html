@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+		
+        <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+        <title>
+        </title>
+        <link rel="stylesheet" href="https://s3.amazonaws.com/codiqa-cdn/mobile/1.2.0/jquery.mobile-1.2.0.min.css" />
+         <link rel="stylesheet" href="jquery.mobile-1.2.0.min.css" />
+        <script src="https://s3.amazonaws.com/codiqa-cdn/jquery-1.7.2.min.js">
+        </script>
+		<script src="phonegap.js"></script>
+        <script src="https://s3.amazonaws.com/codiqa-cdn/mobile/1.2.0/jquery.mobile-1.2.0.min.js"></script>
+        <script src="md5.js"></script>
+		<script src="downloadFajlova.js"></script>
+    </head>
+   <body>
+        <!-- Home -->
+        <div data-role="page" id="page1">
+            <div class="header" id="reg_header" data-theme="b" data-role="header">
+                <h3 id="reg">
+                   Logovanje
+                </h3>
+            </div>
+            <div data-role="content">
+                <h4>
+                    U sledeća polja upišite podatke za logovanje na InfoKiosk. Ukoliko niste
+            registrovani odaberite dugme InfoKiosk.
+                </h4>
+                <div data-role="fieldcontain">
+                    <fieldset data-role="controlgroup">
+                        <label for="korisnicko_ime">
+                           Broj indeksa
+                        </label>
+                        <input name="korisnicko_ime" id="korisnicko_ime" placeholder="Unesite ime.." value="" type="number" />
+                    </fieldset>
+                </div>
+                <div data-role="fieldcontain">
+                    <fieldset data-role="controlgroup">
+                        <label for="lozinka">
+                            Lozinka
+                        </label>
+                        <input name="lozinka" id="lozinka" placeholder="Unesite lozinku.." value="" type="password" />
+                    </fieldset>
+                </div>
+				<a data-role="button" data-theme="b" data-rel="dialog" href="#dialog" data-transition="pop" onclick="Enkripcija()">Unos</a>
+                <div>
+                    <a class="link" id="infokiosk" data-role="button" data-theme="b" href="https://infokiosk.unssa.rs.ba/" data-transition="fade">
+                        InfoKiosk
+                    </a>
+                </div>
+           </div>
+        </div>
+		
+		
+		
+		<!-- dialog -->
+		<div data-role="page" id="dialog">
+            <div data-theme="b" data-role="header">
+                <h3>
+                    Dialog
+                </h3>
+            </div>
+            <div data-role="content">
+			<img id="loading-image" src="images/ajax-loader.gif"/>
+				<table id="poruka"></table>
+				<a id="ok" data-role="button" data-theme="b"  onclick="UnosPodataka();downloadFile(korisnicko_ime,md5_lozinka);">OK</a>
+				<a id="nazad" data-role="button" data-theme="b"  onclick="javascript:window.location.replace('index.html');">Nazad</a>
+            </div>
+        </div>
+		
+		
+	<script type="text/javascript">
+	var md5_lozinka;
+    
+	//funkcija za dobavljanje indexa i lozinke iz polja i vrsi md5 lozinke i poziv funkcije loadingAjax()
+	function Enkripcija()
+	{
+		korisnicko_ime=document.getElementById("korisnicko_ime").value;
+		lozinka=document.getElementById("lozinka").value;
+		md5_lozinka=hex_md5(lozinka);
+		loadingAjax(korisnicko_ime,md5_lozinka);
+	}
+
+	
+	// funkcija za provjeru uspjesnosti logovanaja ukoliko je sistem u online rezimu
+	function loadingAjax(user,pass)
+			
+			{
+			adresa="http://wstest.etf.unssa.rs.ba/studenti/status/etf/"+user+"/"+pass;
+					$.ajax({
+					  url:adresa,
+					  type:"GET",
+					  timeout:15000,
+					  crossDomain: true,
+					  dataType:"jsonp",
+					  beforeSend: function() {
+					  $("#loading-image").show();
+					   },
+					  success: function(data)
+					{
+						$("#loading-image").hide();
+						if(data!="")
+						{
+						//$('#poruka').apend(<img src="images/ok.png"/>);
+						$("#ok").css({display: "block"});
+						$.each(data, function(index, item)
+						{
+						$('#poruka').html('<tr><td><img src="images/ok.png"/></td><td>Uspješno ste logovani. Vaše ime i prezime je:'+ item.Student.ime+' '+item.Student.prezime+'</td></tr>');
+						});
+						}
+						else
+						{
+						$('#poruka').html('<tr><td><img src="images/error.png"/></td><td>Podaci nisu validni</td></tr>');
+						$("#nazad").css({display: "block"});
+						}
+						
+					},
+					error: function (request,error) 
+					{
+					
+					$("#loading-image").hide();
+					$("#nazad").css({display: "block"});
+						if(error=="timeout")
+						{
+							$('#poruka').html('<tr><td><img src="images/warning.png"/></td><td>Greska u komunikaciji sa serverom provjerite internet konekciju</td></tr>');
+						}
+						else
+						{
+							$('#poruka').html('<tr><td><img src="images/error.png"/></td><td>Doslo je do greške</td></tr>');
+						}
+					}
+					});
+				
+			}
+	function UnosPodataka() // funkcija za cuvanje imena i lozinke
+    { 	
+		window.localStorage.setItem("korisnicko_ime", korisnicko_ime);
+		window.localStorage.setItem("lozinka", md5_lozinka);
+		window.location.replace('pocetna.html');
+    }
+	
+	</script>
+    </body>
+</html>

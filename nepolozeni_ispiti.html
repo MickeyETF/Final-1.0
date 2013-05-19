@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+        <title>
+        </title>
+        <link rel="stylesheet" href="https://s3.amazonaws.com/codiqa-cdn/mobile/1.2.0/jquery.mobile-1.2.0.min.css" />
+        <link rel="stylesheet" href="jquery.mobile-1.2.0.min.css" />
+        <script src="https://s3.amazonaws.com/codiqa-cdn/jquery-1.7.2.min.js"></script>
+        <script src="phonegap.js"></script>
+        <script src="https://s3.amazonaws.com/codiqa-cdn/mobile/1.2.0/jquery.mobile-1.2.0.min.js"></script>
+    </head>
+    <body onLoad="onLoad();">
+        <!-- Home -->
+        <div data-role="page" >
+            <div data-theme="b" data-role="header">
+                <a data-role="button" href="javascript:window.location.replace('pocetna.html');" data-icon="back" data-iconpos="left"class="ui-btn-left"> 
+                Nazad
+                </a>
+                <h3>
+                    Spisak ispita
+                </h3>
+            </div>
+            <div data-role="content">
+                <img id="loading-image" src="images/ajax-loader.gif"/>
+                <table id="List">
+                    <thead>
+                        <tr>
+                            <td>RB</td>
+                            <td>Naziv predmeta</td>
+                            <td>Godina</td>
+                            <td>Semestar</td>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
+        <script>
+            var pom;
+            var nepolozeni_ispiti;
+             function onLoad()
+             {
+             	document.addEventListener("online", onOnline, false);
+                document.addEventListener("deviceready", onDeviceReady, false);
+             }
+            
+            
+            
+            
+            function onOnline()
+            {
+            //alert("imate konekciju");
+            pom=1;
+            }
+            
+            function onDeviceReady()
+            	{
+            	//alert("odluka da li se poziva ajax ili se parsira string");
+            		if(pom==1)
+            			{		
+            			//alert("pozivam ajax");
+            			loadingAjax();	
+            			}
+            			else
+            			{
+            			//alert("pozivam parsiranje stringa");
+            			window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, gotFS, fail);
+            			parsiranjePodataka();
+            			}
+            	}
+                   
+            
+                function gotFS(fileSystem) {
+                    fileSystem.root.getFile("prijava_ispita/nepolozeni_ispiti.json", null, gotFileEntry, fail);
+                    
+                }
+            
+                function gotFileEntry(fileEntry) {
+                    fileEntry.file(gotFile, fail);
+                }
+            
+            
+                function gotFile(file)
+                {
+                    readAsText(file);
+                }
+            
+                function readAsText(file) {
+                    var reader = new FileReader();
+                    reader.onloadend = function(evt) {
+                       //alert("Read as text");
+                       nepolozeni_ispiti=evt.target.result;
+
+                    };
+                    reader.readAsText(file);
+                }
+            
+                function fail(evt) {
+                    //alert(evt.target.error.code);
+                }
+            
+            	function loadingAjax()
+            	{
+            		var korisnicko_ime = window.localStorage.getItem("korisnicko_ime");
+            		var lozinka = window.localStorage.getItem("lozinka");
+            		var adresa="http://wstest.etf.unssa.rs.ba/studenti/nepolozeni_ispiti/etf/"+korisnicko_ime+"/"+lozinka;
+            			$.ajax({
+            			url:adresa,
+            			 type:"GET",
+            			crossDomain: true,
+            			dataType:"jsonp",
+            			 beforeSend: function() {
+            			$("#List").hide();
+            			$("#loading-image").show();
+            			 },
+            			success: function(data)
+            			{
+            			  $("#loading-image").hide();
+            			 $("#List").show();
+            			var i=1;
+            				$.each(data, function(index, item)
+            				{
+            						 $('#List').append('<tr><td>'+i+'</td><td>'+item.Ispit.naziv+'</td><td>'+item.Ispit.godina+'</td><td>'+item.Ispit.semestar+'</td></tr>');
+            						 i++;
+            				});
+            			}
+            			});
+            		}
+            			
+            			function parsiranjePodataka()
+            			{
+            				var json_parsed = eval('(' + nepolozeni_ispiti + ')');
+            				var i=1;
+            				$.each(json_parsed, function(index, item)
+            					{
+            						 $('#List').append('<tr><td>'+i+'</td><td>'+item.Ispit.naziv+'</td><td>'+item.Ispit.godina+'</td><td>'+item.Ispit.semestar+'</td></tr>');
+            						 i++;
+            					});
+            			}
+        </script>
+    </body>
+</html>
