@@ -14,7 +14,7 @@ function onDeviceReady()
 {
 	if(pom==1)
 	{
-		console.log("Imate konekciju");
+	alert("Imate konekciju");
 	    window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, gotFS, fail);
 	    if (korisnicko_ime != null && lozinka != null) {
 	     loadingAjax(korisnicko_ime,lozinka);
@@ -23,7 +23,7 @@ function onDeviceReady()
 	}
 	else
 	{
-		console.log("Nemate konekciju");
+		alert("Nemate konekciju");
 		if (korisnicko_ime != null && lozinka != null)
 		{
 		window.location.replace('pocetna.html');
