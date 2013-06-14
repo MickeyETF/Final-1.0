@@ -66,7 +66,7 @@ function loadingAjax(user,pass)
 						if(data!="")
 						{
 						alert("Server je ziv osvezavam bazu podataka");
-						downloadFile(korisnicko_ime, lozinka);
+						downloadFile(user, pass);
 						}
 					}
 					});
