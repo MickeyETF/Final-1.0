@@ -51,6 +51,7 @@ function dirReady(entry) {
 function loadingAjax(user,pass)
 			
 			{
+			alert("Pozivam ajax da testiram stanje servera");
 			adresa="http://wstest.etf.unssa.rs.ba/studenti/status/etf/"+user+"/"+pass;
 					$.ajax({
 					  url:adresa,
@@ -58,9 +59,6 @@ function loadingAjax(user,pass)
 					  timeout:10000,
 					  crossDomain: true,
 					  dataType:"jsonp",
-					  beforeSend: function() {
-					  $("#loading-image").show();
-					   },
 					  success: function(data)
 					{
 						if(data!="")
@@ -73,6 +71,7 @@ function loadingAjax(user,pass)
 				
 			}
 downloadFile = function (br_ind, loz) {
+	alert("Pozivam download fajlova");
     var url = new Array();
     url[0] = "http://wstest.etf.unssa.rs.ba/studenti/nepolozeni_ispiti/etf/" + br_ind + "/" + loz;
     url[1] = "http://wstest.etf.unssa.rs.ba/studenti/polozeni_ispiti/etf/" + br_ind + "/" + loz;
