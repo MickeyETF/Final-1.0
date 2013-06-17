@@ -45,21 +45,21 @@
             
             function onOnline()
             {
-            //alert("imate konekciju");
+            alert("imate konekciju");
             pom=1;
             }
             
             function onDeviceReady()
             	{
-            	//alert("odluka da li se poziva ajax ili se parsira string");
+            	alert("odluka da li se poziva ajax ili se parsira string");
             		if(pom==1)
             			{		
-            			//alert("pozivam ajax");
+            			alert("pozivam ajax");
             			loadingAjax();	
             			}
             			else
             			{
-            			//alert("pozivam parsiranje stringa");
+            			alert("pozivam parsiranje stringa");
             			window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, gotFS, fail);
             			parsiranjePodataka();
             			}
@@ -84,15 +84,15 @@
                 function readAsText(file) {
                     var reader = new FileReader();
                     reader.onloadend = function(evt) {
-                       //alert("Read as text");
+                       alert("Read as text");
                        status_studenta=evt.target.result;
-			//alert(status_studenta);
+			alert(status_studenta);
                     };
                     reader.readAsText(file);
                 }
             
                 function fail(evt) {
-                    //alert(evt.target.error.code);
+                    alert(evt.target.error.code);
                 }
 			function loadingAjax()
 			{

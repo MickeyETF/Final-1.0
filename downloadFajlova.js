@@ -14,16 +14,14 @@ function onDeviceReady()
 {
 	if(pom==1)
 	{
-	alert("Imate konekciju");
 	    window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, gotFS, fail);
 	    if (korisnicko_ime != null && lozinka != null) {
-	     loadingAjax(korisnicko_ime,lozinka);
+	     downloadFile(korisnicko_ime, lozinka);
 	     window.location.replace('pocetna.html');
 	   }
 	}
 	else
 	{
-		alert("Nemate konekciju");
 		if (korisnicko_ime != null && lozinka != null)
 		{
 		window.location.replace('pocetna.html');
@@ -48,30 +46,8 @@ function dirReady(entry) {
     window.appRootDir = entry;
     //alert("application dir is ready");
 }
-function loadingAjax(user,pass)
-			
-			{
-			alert("Pozivam ajax da testiram stanje servera");
-			adresa="http://wstest.etf.unssa.rs.ba/studenti/status/etf/"+user+"/"+pass;
-					$.ajax({
-					  url:adresa,
-					  type:"GET",
-					  timeout:10000,
-					  crossDomain: true,
-					  dataType:"jsonp",
-					  success: function(data)
-					{
-						if(data!="")
-						{
-						alert("Server je ziv osvezavam bazu podataka");
-						downloadFile(user, pass);
-						}
-					}
-					});
-				
-			}
 downloadFile = function (br_ind, loz) {
-	alert("Pozivam download fajlova");
+    alert("Osvezava se baza podataka");
     var url = new Array();
     url[0] = "http://wstest.etf.unssa.rs.ba/studenti/nepolozeni_ispiti/etf/" + br_ind + "/" + loz;
     url[1] = "http://wstest.etf.unssa.rs.ba/studenti/polozeni_ispiti/etf/" + br_ind + "/" + loz;
@@ -86,12 +62,15 @@ downloadFile = function (br_ind, loz) {
         var fileTransfer = new FileTransfer();
         var adresa = url[i].toString();
         var ime_fajla = file[i].toString();
+        //alert(adresa);
+        //alert(ime_fajla);
         var filePath = window.appRootDir.fullPath + ime_fajla;
         fileTransfer.download(
             adresa,
             filePath, function (entry) {
+            //alert("download complete: " + entry.fullPath);
         }, function (error) {
+            //alert("download error" + error.source);
         });
     }
 }
-
