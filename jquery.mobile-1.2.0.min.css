@@ -336,12 +336,7 @@
     background-image: -ms-linear-gradient( #f9f9f9,#eee );
     background-image: -o-linear-gradient( #f9f9f9,#eee );
     background-image: linear-gradient( #f9f9f9,#eee );*/
-	background-image: -webkit-gradient(linear,top,bottom,from( #E7E7E7 ),to( #9E9E9E ));
-    background-image: -webkit-linear-gradient( #E7E7E7,#9E9E9E );
-    background-image: -moz-linear-gradient( #E7E7E7,#9E9E9E );
-    background-image: -ms-linear-gradient( #E7E7E7,#9E9E9E );
-    background-image: -o-linear-gradient( #E7E7E7,#9E9E9E );
-    background-image: linear-gradient( #E7E7E7,#9E9E9E );
+    background-image: url(images/background.png);
 	
 }
 
