@@ -11,14 +11,16 @@ document.addEventListener("deviceready", onDeviceReady, false);
 }
 function onOnline()
             {
+            alert("Ima konekcije");
             pom=1;
-			$("#odjava").css({display: "block"});
+	$("#odjava").css({display: "block"});
             }
             
 function onDeviceReady() 
 {
 	if(pom==1)
 	{
+	alert("ispitao konekciju");
 	    window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, gotFS, fail);
 		loadingAjax();
 	}
@@ -44,6 +46,7 @@ function dirReady(entry) {
 function loadingAjax()
 			
 			{
+			alert("Izvrsavam loading ajax");
 			adresa="http://wstest.etf.unssa.rs.ba/studenti/status/etf/"+br_indeksa+"/"+lozinka;
 					$.ajax({
 					  url:adresa,
@@ -55,6 +58,7 @@ function loadingAjax()
 					{
 						if(data!="")
 						{
+							alert("pozivam download ");
 						downloadFile();
 						}	
 					}
