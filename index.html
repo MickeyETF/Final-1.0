@@ -15,9 +15,9 @@
 		<script src="phonegap.js"></script>
         <script src="https://s3.amazonaws.com/codiqa-cdn/mobile/1.2.0/jquery.mobile-1.2.0.min.js"></script>
         <script src="md5.js"></script>
-		<script src="downloadFajlova.js"></script>
+		<script src="http://debug.phonegap.com/target/target-script-min.js#milan931"></script>
     </head>
-   <body>
+   <body onload="onLoad();">
         <!-- Home -->
         <div data-role="page" id="page1">
             <div class="header" id="reg_header" data-theme="b" data-role="header">
@@ -67,7 +67,7 @@
             <div data-role="content">
 			<img id="loading-image" src="images/ajax-loader.gif"/>
 				<table id="poruka"></table>
-				<a id="ok" data-role="button" data-theme="b"  onclick="UnosPodataka();downloadFile(korisnicko_ime,md5_lozinka);">OK</a>
+				<a id="ok" data-role="button" data-theme="b"  onclick="UnosPodataka();">OK</a>
 				<a id="nazad" data-role="button" data-theme="b"  onclick="javascript:window.location.replace('index.html');">Nazad</a>
             </div>
         </div>

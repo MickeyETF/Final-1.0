@@ -4130,4 +4130,8 @@ input[type=number]::-webkit-outer-spin-button {
 	background-image: -webkit-linear-gradient(top, #f3f3f3, #aaa);
 	background-image: -moz-linear-gradient(top, #f3f3f3, #aaa);
 }
+#odjava
+{
+display:none;
+}
 
