@@ -17,9 +17,6 @@
         Milan Milicevic
     </author>
     <icon src="images/icon.png" width="72" height="72" />
-	<preference name="fullscreen" value="true" />
-	<preference name="target-device" value="universal" />
-	<feature name="http://api.phonegap.com/1.0/file"/>
 	<access origin="*" />
 
 </widget>
