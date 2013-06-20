@@ -15,9 +15,9 @@
 		<script src="phonegap.js"></script>
         <script src="https://s3.amazonaws.com/codiqa-cdn/mobile/1.2.0/jquery.mobile-1.2.0.min.js"></script>
         <script src="md5.js"></script>
-		<script src="http://debug.phonegap.com/target/target-script-min.js#milan931"></script>
+		
     </head>
-   <body>
+   <body onload="onLoad()">
         <!-- Home -->
         <div data-role="page" id="page1">
             <div class="header" id="reg_header" data-theme="b" data-role="header">
@@ -35,7 +35,7 @@
                         <label for="korisnicko_ime">
                            Broj indeksa
                         </label>
-                        <input name="korisnicko_ime" id="korisnicko_ime" placeholder="Unesite ime.." value="" type="number" />
+                        <input name="br_indeksa" id="br_indeksa" placeholder="Unesite broj indeksa..." value="" type="number" />
                     </fieldset>
                 </div>
                 <div data-role="fieldcontain">
@@ -67,22 +67,39 @@
             <div data-role="content">
 			<img id="loading-image" src="images/ajax-loader.gif"/>
 				<table id="poruka"></table>
-				<a id="ok" data-role="button" data-theme="b"  onclick="UnosPodataka();">OK</a>
+				<a id="ok" data-role="button" data-theme="b"  onclick="UnosPodataka()">OK</a>
 				<a id="nazad" data-role="button" data-theme="b"  onclick="javascript:window.location.replace('index.html');">Nazad</a>
             </div>
         </div>
 		
 		
 	<script type="text/javascript">
+	
+	var br_indeksa;
+	var lozinka;
 	var md5_lozinka;
+	
+	function onLoad()
+	{
+	document.addEventListener("deviceready", onDeviceReady, false);
+	}
+	function onDeviceReady() 
+	{
+	br_indeksa = window.localStorage.getItem("br_indeksa");
+	lozinka = window.localStorage.getItem("lozinka");
+		if(br_indeksa!="" && lozinka!="")
+		{
+		window.location.replace('pocetna.html');
+		}
+	}
     
 	//funkcija za dobavljanje indexa i lozinke iz polja i vrsi md5 lozinke i poziv funkcije loadingAjax()
 	function Enkripcija()
 	{
-		korisnicko_ime=document.getElementById("korisnicko_ime").value;
+		br_indeksa=document.getElementById("br_indeksa").value;
 		lozinka=document.getElementById("lozinka").value;
 		md5_lozinka=hex_md5(lozinka);
-		loadingAjax(korisnicko_ime,md5_lozinka);
+		loadingAjax(br_indeksa,md5_lozinka);
 	}
 
 	
@@ -94,7 +111,7 @@
 					$.ajax({
 					  url:adresa,
 					  type:"GET",
-					  timeout:15000,
+					  timeout:10000,
 					  crossDomain: true,
 					  dataType:"jsonp",
 					  beforeSend: function() {
@@ -105,7 +122,6 @@
 						$("#loading-image").hide();
 						if(data!="")
 						{
-						//$('#poruka').apend(<img src="images/ok.png"/>);
 						$("#ok").css({display: "block"});
 						$.each(data, function(index, item)
 						{
@@ -138,7 +154,7 @@
 			}
 	function UnosPodataka() // funkcija za cuvanje imena i lozinke
     { 	
-		window.localStorage.setItem("korisnicko_ime", korisnicko_ime);
+		window.localStorage.setItem("br_indeksa", br_indeksa);
 		window.localStorage.setItem("lozinka", md5_lozinka);
 		window.location.replace('pocetna.html');
     }

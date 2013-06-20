@@ -15,7 +15,7 @@
         <script src="https://s3.amazonaws.com/codiqa-cdn/mobile/1.2.0/jquery.mobile-1.2.0.min.js"></script>
         
     </head>
-    <body onload="onLoad();">
+    <body onload="onLoad()">
         <!-- Home -->
 		
         <div data-role="page">
@@ -38,28 +38,24 @@
              {
              	document.addEventListener("online", onOnline, false);
                 document.addEventListener("deviceready", onDeviceReady, false);
-             }
-            
-            
-            
-            
+             } 
             function onOnline()
             {
-            console.log("imate konekciju");
+            alert("imate konekciju");
             pom=1;
             }
             
             function onDeviceReady()
             	{
-            	console.log("odluka da li se poziva ajax ili se parsira string");
+            	alert("odluka da li se poziva ajax ili se parsira string");
             		if(pom==1)
             			{		
-            			console.log("pozivam ajax");
+            			alert("pozivam ajax");
             			loadingAjax();	
             			}
             			else
             			{
-            			console.log("pozivam parsiranje stringa");
+            			alert("pozivam parsiranje stringa");
             			window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, gotFS, fail);
             			parsiranjePodataka();
             			}
@@ -84,21 +80,21 @@
                 function readAsText(file) {
                     var reader = new FileReader();
                     reader.onloadend = function(evt) {
-                       console.log("Read as text");
+                       alert("Read as text");
                        status_studenta=evt.target.result;
-			console.log(status_studenta);
+			alert(status_studenta);
                     };
                     reader.readAsText(file);
                 }
             
                 function fail(evt) {
-                    console.log(evt.target.error.code);
+                    alert(evt.target.error.code);
                 }
 			function loadingAjax()
 			{
-				var korisnicko_ime = window.localStorage.getItem("korisnicko_ime");
+				var br_indeksa = window.localStorage.getItem("br_indeksa");
 				var lozinka = window.localStorage.getItem("lozinka");
-				var adresa="http://wstest.etf.unssa.rs.ba/studenti/status/etf/"+korisnicko_ime+"/"+lozinka;
+				var adresa="http://wstest.etf.unssa.rs.ba/studenti/status/etf/"+br_indeksa+"/"+lozinka;
 				$.ajax({
 				  url:adresa,
 				  type:"GET",
