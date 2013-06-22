@@ -10,7 +10,7 @@
         <link rel="stylesheet" href="https://s3.amazonaws.com/codiqa-cdn/mobile/1.2.0/jquery.mobile-1.2.0.min.css" />
         <link rel="stylesheet" href="jquery.mobile-1.2.0.min.css" />
         <script src="https://s3.amazonaws.com/codiqa-cdn/jquery-1.7.2.min.js"></script>
-        <script src="phonegap.js"></script>
+        <script src="cordova-2.4.0.js"></script>
         <script src="https://s3.amazonaws.com/codiqa-cdn/mobile/1.2.0/jquery.mobile-1.2.0.min.js"></script>
     </head>
     <body onLoad="onLoad()">
@@ -39,103 +39,118 @@
             </div>
         </div>
         <script>
-            var pom;
-            var nepolozeni_ispiti;
-             function onLoad()
-             {
-             	document.addEventListener("online", onOnline, false);
-                document.addEventListener("deviceready", onDeviceReady, false);
-             }
-            function onOnline()
-            {
-            alert("imate konekciju");
-            pom=1;
-            }
+function onLoad()
+   {
+    document.addEventListener("online", onOnline, false);
+	document.addEventListener("offline", onOffline, false);
+    document.addEventListener("deviceready", onDeviceReady, false);
+   }
+var pom;
+var nepolozeni_ispiti;
+var br_indeksa;
+var lozinka;
+             
+function onOnline()
+    {
+	$('#List').empty();
+	loadingAjax();
+    } 
+	
+function onOffline() 
+	{
+	$('#List').empty();
+	window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, gotFS, fail);
+    parsiranjePodataka();
+    }
+	
+function onDeviceReady()
+    {
+		br_indeksa = window.localStorage.getItem("br_indeksa");
+		lozinka = window.localStorage.getItem("lozinka");
+		checkConnection();
+		if(pom==1)
+        {		
+        loadingAjax();	
+        }
+		else
+        {
+        window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, gotFS, fail);
+        parsiranjePodataka();
+        }
+	}
+	
+function gotFS(fileSystem) 
+	{
+        fileSystem.root.getFile("prijava_ispita/nepolozeni_ispiti.json", null, gotFileEntry, fail);
+    }
             
-            function onDeviceReady()
+function gotFileEntry(fileEntry) 
+	{
+		fileEntry.file(gotFile, fail);
+	}
+function gotFile(file)
+    {
+        readAsText(file);
+    }
+            
+function readAsText(file) 
+	{
+        var reader = new FileReader();
+        reader.onloadend = function(evt) 
+		{
+        nepolozeni_ispiti=evt.target.result;
+        };
+        reader.readAsText(file);
+    }
+            
+function fail(evt) 
+	{
+        //alert(evt.target.error.code);
+    }
+function checkConnection() 
+	{
+        var networkState = navigator.connection.type;
+        if(networkState=="wifi")
+		{
+		pom=1;
+		}
+	}               
+function loadingAjax()
+    {
+        var adresa="http://wstest.etf.unssa.rs.ba/studenti/nepolozeni_ispiti/etf/"+br_indeksa+"/"+lozinka;
+            $.ajax({
+            url:adresa,
+            type:"GET",
+            crossDomain: true,
+            dataType:"jsonp",
+            beforeSend: function() {
+            	$("#List").hide();
+            	$("#loading-image").show();
+            	},
+            success: function(data)
             	{
-            	alert("odluka da li se poziva ajax ili se parsira string");
-            		if(pom==1)
-            			{		
-            			alert("pozivam ajax");
-            			loadingAjax();	
-            			}
-            			else
-            			{
-            			alert("pozivam parsiranje stringa");
-            			window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, gotFS, fail);
-            			parsiranjePodataka();
-            			}
+            	$("#loading-image").hide();
+            	$("#List").show();
+            	var i=1;
+            	$.each(data, function(index, item)
+            		{
+            			$('#List').append('<tr><td>'+i+'</td><td>'+item.Ispit.naziv+'</td><td>'+item.Ispit.godina+'</td><td>'+item.Ispit.semestar+'</td></tr>');
+            			i++;
+            		});
             	}
-                   
-            
-                function gotFS(fileSystem) {
-                    fileSystem.root.getFile("prijava_ispita/nepolozeni_ispiti.json", null, gotFileEntry, fail);
-                    
-                }
-            
-                function gotFileEntry(fileEntry) {
-                    fileEntry.file(gotFile, fail);
-                }
-            
-            
-                function gotFile(file)
-                {
-                    readAsText(file);
-                }
-            
-                function readAsText(file) {
-                    var reader = new FileReader();
-                    reader.onloadend = function(evt) {
-                       alert("Read as text");
-                       nepolozeni_ispiti=evt.target.result;
-
-                    };
-                    reader.readAsText(file);
-                }
-            
-                function fail(evt) {
-                    alert(evt.target.error.code);
-                }
-            
-            	function loadingAjax()
-            	{
-            		var br_indeksa = window.localStorage.getItem("br_indeksa");
-            		var lozinka = window.localStorage.getItem("lozinka");
-            		var adresa="http://wstest.etf.unssa.rs.ba/studenti/nepolozeni_ispiti/etf/"+br_indeksa+"/"+lozinka;
-            			$.ajax({
-            			url:adresa,
-            			 type:"GET",
-            			crossDomain: true,
-            			dataType:"jsonp",
-            			 beforeSend: function() {
-            			$("#List").hide();
-            			$("#loading-image").show();
-            			 },
-            			success: function(data)
-            			{
-            			  $("#loading-image").hide();
-            			 $("#List").show();
-            			var i=1;
-            				$.each(data, function(index, item)
-            				{
-            						 $('#List').append('<tr><td>'+i+'</td><td>'+item.Ispit.naziv+'</td><td>'+item.Ispit.godina+'</td><td>'+item.Ispit.semestar+'</td></tr>');
-            						 i++;
-            				});
-            			}
-            			});
-            		}
+            	});
+    }
             			
-            			function parsiranjePodataka()
-            			{
-            				var json_parsed = eval('(' + nepolozeni_ispiti + ')');
-            				var i=1;
-            				$.each(json_parsed, function(index, item)
-            					{
-            						 $('#List').append('<tr><td>'+i+'</td><td>'+item.Ispit.naziv+'</td><td>'+item.Ispit.godina+'</td><td>'+item.Ispit.semestar+'</td></tr>');
-            						 i++;
-            					});
-            			}
-        </script>
-    </body>
+function parsiranjePodataka()
+    {
+        var json_parsed = eval('(' + nepolozeni_ispiti + ')');
+        var i=1;
+        $.each(json_parsed, function(index, item)
+            {
+            	$('#List').append('<tr><td>'+i+'</td><td>'+item.Ispit.naziv+'</td><td>'+item.Ispit.godina+'</td><td>'+item.Ispit.semestar+'</td></tr>');
+            	i++;
+            });
+    }
+</script>
+</body>
 </html>

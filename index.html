@@ -12,10 +12,10 @@
          <link rel="stylesheet" href="jquery.mobile-1.2.0.min.css" />
         <script src="https://s3.amazonaws.com/codiqa-cdn/jquery-1.7.2.min.js">
         </script>
-		<script src="phonegap.js"></script>
+		<script src="cordova-2.4.0.js"></script>
         <script src="https://s3.amazonaws.com/codiqa-cdn/mobile/1.2.0/jquery.mobile-1.2.0.min.js"></script>
         <script src="md5.js"></script>
-		
+		<script src="downloadFajlova.js"></script>	
     </head>
    <body onload="onLoad()">
         <!-- Home -->
@@ -71,30 +71,10 @@
 				<a id="nazad" data-role="button" data-theme="b"  onclick="javascript:window.location.replace('index.html');">Nazad</a>
             </div>
         </div>
-		
-		
+	
 	<script type="text/javascript">
-	
-	var br_indeksa;
-	var lozinka;
-	var md5_lozinka;
-	
-	function onLoad()
-	{
-	document.addEventListener("deviceready", onDeviceReady, false);
-	}
-	function onDeviceReady() 
-	{
-	br_indeksa = window.localStorage.getItem("br_indeksa");
-	lozinka = window.localStorage.getItem("lozinka");
-		if(br_indeksa!="" && lozinka!="")
-		{
-		window.location.replace('pocetna.html');
-		}
-	}
-    
-	//funkcija za dobavljanje indexa i lozinke iz polja i vrsi md5 lozinke i poziv funkcije loadingAjax()
-	function Enkripcija()
+//funkcija za dobavljanje indexa i lozinke iz polja i vrsi md5 lozinke i poziv funkcije loadingAjax()
+function Enkripcija()
 	{
 		br_indeksa=document.getElementById("br_indeksa").value;
 		lozinka=document.getElementById("lozinka").value;
@@ -103,9 +83,8 @@
 	}
 
 	
-	// funkcija za provjeru uspjesnosti logovanaja ukoliko je sistem u online rezimu
-	function loadingAjax(user,pass)
-			
+// funkcija za provjeru uspjesnosti logovanaja 
+function loadingAjax(user,pass)			
 			{
 			adresa="http://wstest.etf.unssa.rs.ba/studenti/status/etf/"+user+"/"+pass;
 					$.ajax({
@@ -152,7 +131,7 @@
 					});
 				
 			}
-	function UnosPodataka() // funkcija za cuvanje imena i lozinke
+function UnosPodataka() // funkcija za cuvanje imena i lozinke
     { 	
 		window.localStorage.setItem("br_indeksa", br_indeksa);
 		window.localStorage.setItem("lozinka", md5_lozinka);
