@@ -68,7 +68,12 @@ function provjeraServera()
 					if(data!="")
 					{
 					downloadFile();
-					}	
+					}
+					else
+					{
+					window.location.replace('pocetna.html');	
+					}
+					
 				}
 			});	
 	}
