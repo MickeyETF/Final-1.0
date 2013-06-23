@@ -82,7 +82,6 @@ function Enkripcija()
 function loadingAjax(user,pass)			
 			{
 			adresa="http://wstest.etf.unssa.rs.ba/studenti/status/etf/"+user+"/"+pass;
-			alert(adresa);
 					$.ajax({
 					  url:adresa,
 					  type:"GET",
@@ -115,7 +114,6 @@ function loadingAjax(user,pass)
 					
 					$("#loading-image").hide();
 					$("#nazad").css({display: "block"});
-					alert(error);
 						if(error=="timeout")
 						{
 							$('#poruka').html('<tr><td><img src="images/warning.png"/></td><td>Greska u komunikaciji sa serverom provjerite internet konekciju</td></tr>');
