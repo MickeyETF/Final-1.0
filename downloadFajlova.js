@@ -17,7 +17,7 @@ function onDeviceReady()
 			{
 			window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, gotFS, fail);
 			provjeraServera();
-			window.location.replace('pocetna.html');
+			
 			}
 			else
 			{
@@ -100,6 +100,7 @@ function downloadFile()
             //alert("download error" + error.source);
 			});
 		}
+		window.location.replace('pocetna.html');
 	}
 function playBeep() 
 	{
