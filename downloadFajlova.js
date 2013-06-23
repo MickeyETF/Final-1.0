@@ -2,7 +2,7 @@ window.appRootDirName = "prijava_ispita";
 var br_indeksa;
 var lozinka;
 var pom;
-function onLoad()
+function startIndex()
 	{
 	document.addEventListener("deviceready", onDeviceReady, false);
 	}  
@@ -12,18 +12,15 @@ function onDeviceReady()
 		lozinka = window.localStorage.getItem("lozinka");
 		if(br_indeksa!=null && lozinka!=null)
 		{
-		alert("Vec sam ulogovan");
 			checkConnection();
 			if(pom==1)
 			{
-			alert("Imam neta");
 			window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, gotFS, fail);
 			provjeraServera();
 			window.location.replace('pocetna.html');
 			}
 			else
 			{
-			alert("Nemam neta");
 			window.location.replace('pocetna.html');
 			}
 		}
@@ -67,6 +64,7 @@ function provjeraServera()
 			dataType:"jsonp",
 			success: function(data)
 				{
+					
 					if(data!="")
 					{
 					downloadFile();

@@ -2,22 +2,19 @@
 <html>
     <head>
         <meta charset="utf-8" />
-		
         <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="black" />
-        <title>
-        </title>
-        <link rel="stylesheet" href="https://s3.amazonaws.com/codiqa-cdn/mobile/1.2.0/jquery.mobile-1.2.0.min.css" />
-         <link rel="stylesheet" href="jquery.mobile-1.2.0.min.css" />
-        <script src="https://s3.amazonaws.com/codiqa-cdn/jquery-1.7.2.min.js">
-        </script>
+        <title></title>
+        <link rel="stylesheet" href="jquery.mobile-1.2.0.min.css" />
+		<link rel="stylesheet" href="moj_stil.css" />
+        <script src="jquery-1.7.2.min.js"></script>
 		<script src="phonegap.js"></script>
-        <script src="https://s3.amazonaws.com/codiqa-cdn/mobile/1.2.0/jquery.mobile-1.2.0.min.js"></script>
+        <script src="jquery.mobile-1.2.0.min.js"></script>
         <script src="md5.js"></script>
-		<script src="downloadFajlova.js"></script>	
+		<script src="downloadFajlova.js"></script>
     </head>
-   <body onload="onLoad()">
+   <body onload="startIndex()">
         <!-- Home -->
         <div data-role="page" id="page1">
             <div class="header" id="reg_header" data-theme="b" data-role="header">
@@ -32,10 +29,10 @@
                 </h4>
                 <div data-role="fieldcontain">
                     <fieldset data-role="controlgroup">
-                        <label for="korisnicko_ime">
+                        <label for="br_indeksa">
                            Broj indeksa
                         </label>
-                        <input name="br_indeksa" id="br_indeksa" placeholder="Unesite broj indeksa..." value="" type="number" />
+                        <input name="br_indeksa" id="br_indeksa" placeholder="Unesite broj indeksa.." value="" type="number" />
                     </fieldset>
                 </div>
                 <div data-role="fieldcontain">
@@ -54,9 +51,7 @@
                 </div>
            </div>
         </div>
-		
-		
-		
+
 		<!-- dialog -->
 		<div data-role="page" id="dialog">
             <div data-theme="b" data-role="header">
@@ -67,12 +62,12 @@
             <div data-role="content">
 			<img id="loading-image" src="images/ajax-loader.gif"/>
 				<table id="poruka"></table>
-				<a id="ok" data-role="button" data-theme="b"  onclick="UnosPodataka()">OK</a>
-				<a id="nazad" data-role="button" data-theme="b"  onclick="javascript:window.location.replace('index.html');">Nazad</a>
+				<a id="ok" data-role="button" data-theme="b"  onclick="UnosPodataka();">OK</a>
+				<a id="nazad" data-role="button" data-theme="b"  onclick="Nazad()">Nazad</a>
             </div>
         </div>
-	
-	<script type="text/javascript">
+	<script>
+var md5_lozinka;
 //funkcija za dobavljanje indexa i lozinke iz polja i vrsi md5 lozinke i poziv funkcije loadingAjax()
 function Enkripcija()
 	{
@@ -137,6 +132,11 @@ function UnosPodataka() // funkcija za cuvanje imena i lozinke
 		window.localStorage.setItem("lozinka", md5_lozinka);
 		window.location.replace('pocetna.html');
     }
+	
+function Nazad()
+	{
+		window.location.replace('index.html');
+	}
 	
 	</script>
     </body>

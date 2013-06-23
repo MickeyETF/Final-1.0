@@ -5,17 +5,14 @@
         <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="black" />
-        <title>
-        </title>
-        <link rel="stylesheet" href="https://s3.amazonaws.com/codiqa-cdn/mobile/1.2.0/jquery.mobile-1.2.0.min.css" />
-         <link rel="stylesheet" href="jquery.mobile-1.2.0.min.css" />
-        <script src="https://s3.amazonaws.com/codiqa-cdn/jquery-1.7.2.min.js">
-        </script>
+        <title></title>
+        <link rel="stylesheet" href="jquery.mobile-1.2.0.min.css" />
+		<link rel="stylesheet" href="moj_stil.css" />
+        <script src="jquery-1.7.2.min.js"></script>
 		<script src="phonegap.js"></script>
-        <script src="https://s3.amazonaws.com/codiqa-cdn/mobile/1.2.0/jquery.mobile-1.2.0.min.js"></script>
-        
+        <script src="jquery.mobile-1.2.0.min.js"></script>
     </head>
-    <body onload="onLoad()">
+    <body onload="startStStud()">
         <!-- Home -->
 		
         <div data-role="page">
@@ -31,8 +28,8 @@
 			<img id="loading-image" src="images/ajax-loader.gif"/>
 			<div id="status_studenta"></div>
         </div>
-		<script>			
-function onLoad()
+		<script>
+function startStStud()
     {
         document.addEventListener("online", onOnline, false);
 		document.addEventListener("offline", onOffline, false);
@@ -140,5 +137,5 @@ function parsiranjePodataka()
 			});
     }
 </script>
-</body>
+    </body>
 </html>

@@ -5,19 +5,17 @@
         <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="black" />
-        <title>
-        </title>
-        <link rel="stylesheet" href="https://s3.amazonaws.com/codiqa-cdn/mobile/1.2.0/jquery.mobile-1.2.0.min.css" />
-         <link rel="stylesheet" href="jquery.mobile-1.2.0.min.css" />
-        <script src="https://s3.amazonaws.com/codiqa-cdn/jquery-1.7.2.min.js">
-        </script>
+        <title></title>
+        <link rel="stylesheet" href="jquery.mobile-1.2.0.min.css" />
+		<link rel="stylesheet" href="moj_stil.css" />
+        <script src="jquery-1.7.2.min.js"></script>
 		<script src="phonegap.js"></script>
-        <script src="https://s3.amazonaws.com/codiqa-cdn/mobile/1.2.0/jquery.mobile-1.2.0.min.js"></script>
-		
-        
+        <script src="jquery.mobile-1.2.0.min.js"></script>
+   
     </head>
-    <body onload="onLoad()">
+    <body onload="startPolIsp()">
         <!-- Home -->
+		
         <div data-role="page" >
 		
 		<div data-theme="b" data-role="header">
@@ -31,12 +29,12 @@
             <div data-role="content" id="polozeni_ispiti">
 			<img id="loading-image" src="images/ajax-loader.gif"/>
 			<table id="List">
-			<thead><tr><td>RB</td><td>Naziv predmeta</td><td>Datum polaganja</td><td>Ocjena</td></tr></thead>			
-			</table>
+				<thead><tr><td>RB</td><td>Naziv predmeta</td><td>Datum polaganja</td><td>Ocjena</td></tr><tbody id="sadrzaj"></tbody></thead>				
+				</table>
 			</div>
         </div>
 		<script>
-function onLoad()
+function startPolIsp()
 	{
 		document.addEventListener("online", onOnline, false);
 		document.addEventListener("offline", onOffline, false);
@@ -49,13 +47,13 @@ var lozinka;
 
 function onOnline()
     {
-		$('#List').empty();
+		$('#sadrzaj').empty();
 		loadingAjax();
     } 	
 	
 function onOffline() 
 	{
-	$('#List').empty();
+	$('#sadrzaj').empty();
 	window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, gotFS, fail);
     parsiranjePodataka();
     }
@@ -145,5 +143,5 @@ function parsiranjePodataka()
 			});
     }
 </script>
-</body>
+    </body>
 </html>
