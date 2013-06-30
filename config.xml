@@ -18,5 +18,6 @@
     </author>
     <icon src="images/icon.png" width="72" height="72" />
     <access origin="*" /> 
+    <preference name="fullscreen" value="true" />
 
 </widget>
