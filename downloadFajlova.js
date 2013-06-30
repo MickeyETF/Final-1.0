@@ -8,7 +8,6 @@ function startIndex()
 	}  
 function onDeviceReady() 
 	{	
-		navigator.splashscreen.hide();
 		br_indeksa = window.localStorage.getItem("br_indeksa");
 		lozinka = window.localStorage.getItem("lozinka");
 		if(br_indeksa!=null && lozinka!=null)
